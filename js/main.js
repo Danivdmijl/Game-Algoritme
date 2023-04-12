@@ -26,14 +26,23 @@ class Filter{
     }
 }
 
+class URLScraper{
+    getDataFromURL() {
+        console.log(window.location.href);
+    }
+}
+
 class App{
     api;
     filter;
+    urlScrapper;
 
     constructor() {
         this.api = new Api();
         this.filter = new Filter();
+        this.urlScrapper = new URLScraper();
 
+        this.urlScrapper.getDataFromURL();
         this.api.getData().then(
             () => {
                 this.filter.filter("PC", this.api.data);
