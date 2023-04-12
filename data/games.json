@@ -1,0 +1,44 @@
+{
+    "games": [
+        {
+            "title": "Osu!",
+            "platform": "PC"
+        },
+        {
+            "title": "Valorant",
+            "platform": "PC"
+        },
+        {
+            "title": "Minecraft",
+            "platform": "PS4"
+        },
+        {
+            "title": "Overwatch",
+            "platform": "PS4"
+        },
+        {
+            "title": "Pokemon Brilliant Diamond",
+            "platform": "Nintendo Switch"
+        },
+        {
+            "title": "Pokemon Shield",
+            "platform": "Nintendo Switch"
+        },
+        {
+            "title": "CS:GO",
+            "platform": "PC"
+        },
+        {
+            "title": "Rocket League",
+            "platform": "PS4"
+        },
+        {
+            "title": "Raft",
+            "platform": "PC"
+        },
+        {
+            "title": "EscapeRoom Der Kranke Kollege",
+            "platform": "PC"
+        }
+    ]
+}
