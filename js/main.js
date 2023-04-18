@@ -27,25 +27,54 @@ class Filter{
 }
 
 class URLScraper{
+    currentURL;
+    platform;
+    pretty;
+    constructor() {
+        this.currentURL = window.location.href;
+    }
+
     getDataFromURL() {
-        console.log(window.location.href);
+        this.platform = this.currentURL.split("platform=")[1];
+        this.pretty = new PrettyPlatform(this.platform);
+        console.log(this.pretty.plaform);
+    }
+}
+
+class PrettyPlatform{
+    platform;
+
+    constructor(platform) {
+        this.platform = platform;
+        this.platformToUpperCase();
+        this.removeSpaces();
+    }
+    
+    platformToUpperCase() {
+        this.platform = this.platform.toUpperCase()
+    }
+
+    removeSpaces() {
+        this.platform = this.platform.replaceAll(" ", "");
+        this.platform = this.platform.replaceAll("%20", "");
     }
 }
 
 class App{
     api;
     filter;
-    urlScrapper;
+    urlScraper;
 
     constructor() {
         this.api = new Api();
         this.filter = new Filter();
-        this.urlScrapper = new URLScraper();
+        this.urlScraper = new URLScraper();
 
-        this.urlScrapper.getDataFromURL();
+        this.urlScraper.getDataFromURL();
+
         this.api.getData().then(
             () => {
-                this.filter.filter("PC", this.api.data);
+                this.filter.filter(this.urlScraper.platform, this.api.data);
                 let randomResult = this.filter.randomFromResult();
                 console.log(randomResult);
             }
