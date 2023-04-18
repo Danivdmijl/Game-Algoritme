@@ -4,19 +4,22 @@ class Api {
         await fetch("../data/games.json").then(response => {
             return response.json();
         }).then(newData => {
-            this.data = newData.games;
+            this.data = newData.games; //newData["games"]
         });
     }
 }
 
-class Filter{
+class Filter {
     filteredResult = [];
 
-    filter(platform,data) {
-        for (let i = 0; i < data.length; i++){
+    filter(platform, data) {
+        for (let i = 0; i < data.length; i++) {
             if (data[i].platform === platform) {
                 this.filteredResult.push(data[i]);
             }
+        }
+        if (this.filteredResult.length <= 0) {
+            this.filteredResult.push(data[0]);
         }
     }
 
@@ -26,7 +29,7 @@ class Filter{
     }
 }
 
-class URLScraper{
+class URLScraper {
     currentURL;
     platform;
     pretty;
@@ -36,12 +39,16 @@ class URLScraper{
 
     getDataFromURL() {
         this.platform = this.currentURL.split("platform=")[1];
+        if (this.platform === undefined) {
+            this.platform = "";
+        }
+
         this.pretty = new PrettyPlatform(this.platform);
-        console.log(this.pretty.plaform);
+        this.platform = this.pretty.platform;
     }
 }
 
-class PrettyPlatform{
+class PrettyPlatform {
     platform;
 
     constructor(platform) {
@@ -49,9 +56,9 @@ class PrettyPlatform{
         this.platformToUpperCase();
         this.removeSpaces();
     }
-    
+
     platformToUpperCase() {
-        this.platform = this.platform.toUpperCase()
+        this.platform = this.platform.toUpperCase();
     }
 
     removeSpaces() {
@@ -60,26 +67,48 @@ class PrettyPlatform{
     }
 }
 
-class App{
+class Render {
+    articleToBeRendered;
+    headingToBeRendered;
+
+    constructor() {
+        this.articleToBeRendered = document.createElement("article");
+        this.headingToBeRendered = document.createElement("h1");
+    }
+    render(randomResult) {
+        this.articleToBeRendered.classList = "card";
+        document.getElementsByTagName("body")[0].appendChild(this.articleToBeRendered);
+
+        this.headingToBeRendered.classList = "card__heading"
+        document.getElementsByTagName("article")[0].appendChild(this.headingToBeRendered);
+
+        this.headingToBeRendered.innerText = randomResult.title;
+    }
+}
+
+
+class App {
     api;
     filter;
     urlScraper;
+    render;
 
     constructor() {
         this.api = new Api();
         this.filter = new Filter();
         this.urlScraper = new URLScraper();
+        this.render = new Render();
+
 
         this.urlScraper.getDataFromURL();
 
         this.api.getData().then(
             () => {
                 this.filter.filter(this.urlScraper.platform, this.api.data);
-                let randomResult = this.filter.randomFromResult();
-                console.log(randomResult);
+                this.render.render(this.filter.randomFromResult());
             }
-                );
+        );
+
     }
 }
-
 const app = new App();

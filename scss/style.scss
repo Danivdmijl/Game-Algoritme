@@ -1,2 +1,3 @@
-@use "./base.scss";
 @use "./abstracts/reset";
+@use "./base";
+@use "./components/card.scss";
